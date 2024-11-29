@@ -6,6 +6,8 @@ Tâches à accomplir :
 Créer un diagramme de classe UML complet avec toutes les relations et les attributs des classes (Plateau, Case, Position, Piece, etc.).
 Vérifier la cohérence des relations entre les classes, notamment les types de relations (agrégation, composition, association).
 Déterminer les méthodes de chaque classe et leur interaction.
+Lien pour accéder au diagramme : https://drive.google.com/file/d/1iOK0hiSNxD2AXBb2bgvFR37hsWrXwx3g/view?usp=sharing*
+
 
 Répartition :
 Mick : Créer le diagramme de classe initial, définir les relations principales entre les classes.
