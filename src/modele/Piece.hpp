@@ -13,19 +13,21 @@ enum class Direction {
     Droite    
 };
 class Piece {
-protected:
+public:
     Case* caseCourrante; // Case actuelle où se trouve la pièce
     std::map<int, std::vector<Position>> blocks; // Map des blocs pour les états de rotation
     int rotationState; // État actuel de rotation
 
 public:
     // Constructeurs et destructeur
-    Piece() ; // Constructeur par défaut abstrait
+    Piece(); // Constructeur par défaut abstrait
     Piece(Case* c, std::map<int, std::vector<Position>> b); // Constructeur avec initialisation
-    virtual ~Piece() = 0; // Destructeur virtuel pur
+    virtual ~Piece(); // Destructeur virtuel pur
 
     // Accesseur pour la case courante
     virtual Case* getCaseCourrante() const = 0;
+
+    virtual string print() const =0;
 
     // Déplacement de la pièce
     virtual void deplacer(Direction direction) = 0;
@@ -41,6 +43,7 @@ public:
 
     // Surcharge de l'opérateur d'égalité
     virtual bool operator==(const Piece& piece) const = 0;
+
 };
 
 #endif 
