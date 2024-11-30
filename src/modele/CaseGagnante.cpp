@@ -1,55 +1,47 @@
 #include "CaseGagnante.hpp"
+// Initialisation de l'attribut statique
+int CaseGagnante::nbCaseGagnante = 0;
 
-CaseGagnante::CaseGagnante() : Case(), nbCaseGagnante(1) {}
-
-// Constructeur avec paramètres
-CaseGagnante::CaseGagnante(Position position, Color couleur, int nbCaseGagnante) : Case(position,  couleur), nbCaseGagnante(nbCaseGagnante) {}
-
-// Destructeur
-CaseGagnante::~CaseGagnante(){cout<<"Destruction de la case gagnante n°"<<id<<endl;}
-
-// Méthodes spécifiques
-int CaseGagnante::getNbCaseGagnante() const { 
-    return nbCaseGagnante; 
+// Implémentations
+CaseGagnante::CaseGagnante() : CaseJeu() {
+    nbCaseGagnante++;
 }
 
-// Vérifie si la condition de fin de jeu est atteinte
+CaseGagnante::CaseGagnante(Position pos, Color c, Piece* p)
+    : CaseJeu(pos, c, p) {
+    nbCaseGagnante++;
+}
+
+CaseGagnante::CaseGagnante(const CaseGagnante& other)
+    : CaseJeu(other) { // Appelle le constructeur de copie de CaseJeu
+    nbCaseGagnante++;
+}
+
+CaseGagnante::~CaseGagnante() {
+    nbCaseGagnante--;
+}
+
+int CaseGagnante::getNbCaseGagnante() {
+    return nbCaseGagnante;
+}
+
 bool CaseGagnante::finDeJeu() const {
-    if (estOccupe && piece) { // Vérifie si la case est occupée et si une pièce est présente
-        return dynamic_cast<PieceO*>(piece) != nullptr; // Vérifie si la pièce est de type PieceO
-    }
-    return false;
+    return this->getPiece() != nullptr; // La fin de jeu se déclenche si une pièce occupe la case gagnante
 }
 
-
-// Implémentations des méthodes virtuelles de Case
-bool CaseGagnante::getEstOccupe() const {
-    return estOccupe;
+CaseGagnante& CaseGagnante::operator=(const CaseGagnante& other) {
+    if (this != &other) {
+        CaseJeu::operator=(other); // Appelle l'opérateur d'affectation de CaseJeu
+    }
+    return *this;
 }
 
-Color CaseGagnante::getCouleur() const{
-    return couleur;
+std::ostream& operator<<(std::ostream& os, const CaseGagnante& c) {
+    os << "CaseGagnante [Position: " << c.getPosition()
+       << ", Couleur: " << static_cast<int>(c.getCouleur())
+       << ", Est Occupée: " << c.getEstOccupe()
+       << ", Piece: " << (c.getPiece() ? c.getPiece()->print() : "Aucune")
+       << ", Nombre Total de Cases Gagnantes: " << CaseGagnante::getNbCaseGagnante() << "]";
+    return os;
 }
 
-    int getTaille() const override {
-        return taille;
-    }
-
-    Position getPosition() const override {
-        return position;
-    }
-
-    void setEstOccupe(bool b) override {
-        estOccupe = b;
-    }
-
-    std::ostream& operator<<(std::ostream& os) const{
-        os << "CaseGagnante [Position=(" << position.getLigne() << "," << position.getColonne()
-           << "), Taille=" << taille
-           << ", Couleur=" << static_cast<int>(couleur)
-           << ", EstOccupe=" << estOccupe
-           << ", NbCaseGagnante=" << nbCaseGagnante << "]";
-        return os;
-    }
-
- 

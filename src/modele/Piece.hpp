@@ -5,6 +5,7 @@
 #include <vector>
 #include "Case.hpp"
 #include "Position.hpp"
+#include "Plateau.hpp"
 
 enum class Direction {
     Haut,     
@@ -12,9 +13,12 @@ enum class Direction {
     Gauche,   
     Droite    
 };
+
+class Plateau; //Déclaration anticipé de Plateau pour éviter le problème des cycles.
 class Piece {
 public:
     Case* caseCourrante; // Case actuelle où se trouve la pièce
+    Plateau plateau;
     std::map<int, std::vector<Position>> blocks; // Map des blocs pour les états de rotation
     int rotationState; // État actuel de rotation
 
@@ -28,9 +32,9 @@ public:
     virtual Case* getCaseCourrante() const = 0;
 
     virtual string print() const =0;
-
+    Plateau getPlateau();
     // Déplacement de la pièce
-    virtual void deplacer(Direction direction) = 0;
+    virtual void deplacer(Direction direction);
 
     // Rotation de la pièce
     virtual void rotation() = 0;
@@ -43,6 +47,8 @@ public:
 
     // Surcharge de l'opérateur d'égalité
     virtual bool operator==(const Piece& piece) const = 0;
+
+
 
 };
 

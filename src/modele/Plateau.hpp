@@ -1,12 +1,18 @@
+#ifndef PLATEAU_HPP
+#define PLATEAU_HPP 
+
 #include <iostream>
 using namespace std;
 
 #include <vector>
 #include <iostream>
-#include "Case.hpp"   
+#include "Case.hpp" 
+#include "CaseJeu.hpp"  
 #include "Piece.hpp"  
 #include "Position.hpp"
 #include <map>
+
+class Piece; //Déclaration anticipé de Piece pour éviter le problème des cycles.
 
 class Plateau {
 private:
@@ -21,7 +27,7 @@ public:
     Plateau(int niveau = 0);
 
     // Méthodes d'accès
-    Case getCase(Position p) const; 
+    CaseJeu getCase(Position p) const; 
     int getNbLignes() const;        
     int getNbColonnes() const;      
 
@@ -32,3 +38,5 @@ public:
     Plateau& operator=(const Plateau& p);
     friend std::ostream& operator<<(std::ostream& os, const Plateau& p);
 };
+
+#endif

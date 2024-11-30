@@ -63,26 +63,7 @@ Case* PieceO::getCaseCourrante() const {
 }
 
 // Méthode pour déplacer la pièce
-void PieceO::deplacer(Direction direction) {
-    switch (direction) {
-        case Direction::Haut:
-            caseCourrante->setPosition(Position(caseCourrante->getPosition().getLigne() - 1,
-                                                 caseCourrante->getPosition().getColonne()));
-            break;
-        case Direction::Bas:
-            caseCourrante->setPosition(Position(caseCourrante->getPosition().getLigne() + 1,
-                                                 caseCourrante->getPosition().getColonne()));
-            break;
-        case Direction::Gauche:
-            caseCourrante->setPosition(Position(caseCourrante->getPosition().getLigne(),
-                                                 caseCourrante->getPosition().getColonne() - 1));
-            break;
-        case Direction::Droite:
-            caseCourrante->setPosition(Position(caseCourrante->getPosition().getLigne(),
-                                                 caseCourrante->getPosition().getColonne() + 1));
-            break;
-    }
-}
+//A faire dans la classe jeu
 
 // Méthode pour effectuer une rotation
 void PieceO::rotation() {
@@ -111,4 +92,3 @@ bool PieceO::operator==(const Piece& piece) const {
     }
     return false;
 }
-**/

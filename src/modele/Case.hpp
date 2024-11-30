@@ -29,12 +29,12 @@ public:
     virtual ~Case();
 
     // Méthodes virtuelles pures
-    virtual bool getEstOccupe() const = 0;           // Retourne si la case est occupée
-    virtual Color getCouleur() const = 0;           // Retourne la couleur de la case
-    virtual int getTaille() const = 0;              // Retourne la taille de la case
-    virtual Position getPosition() const = 0;       // Retourne la position de la case
-    virtual void setEstOccupe(bool b) = 0;          // Modifie l'état d'occupation
-    virtual void print(std::ostream& os) const = 0; // Affiche les informations de la case
+    virtual bool getEstOccupe() const ;           // Retourne si la case est occupée
+    virtual Color getCouleur() const ;           // Retourne la couleur de la case
+    virtual int getTaille() const ;              // Retourne la taille de la case
+    virtual Position getPosition() const ;       // Retourne la position de la case
+    virtual void setEstOccupe(bool b) ;          // Modifie l'état d'occupation
+    virtual void print(std::ostream& os) const ; // Affiche les informations de la case
 
     // Surcharge de l'opérateur de flux en tant que méthode pure
     virtual std::ostream& operator<<(std::ostream& os) const = 0;

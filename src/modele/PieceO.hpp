@@ -24,8 +24,15 @@ public:
 
     void deplacer(Direction direction);
 
+    void rotation();
 
-    // Surcharge de l'opérateur <<
+    std::map<int, std::vector<Position>> getBlocks() const;
+
+    bool PieceO::operator==(const Piece& piece) const;
+
+    bool estDehors() const;
+
     friend std::ostream& operator<<(std::ostream& os, const PieceO& piece);
+
 };
 #endif

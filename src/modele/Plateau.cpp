@@ -1,5 +1,5 @@
 #include "Plateau.hpp" 
-
+#include "CaseJeu.hpp"
 
 
 // Constructeur
@@ -9,7 +9,7 @@ Plateau::Plateau(int niveau = 0) : nbLigne(10), nbColonne(10), niveau(niveau) {
 }
 
 // Méthodes d'accès
-Case Plateau::getCase(Position p) const {
+CaseJeu Plateau::getCase(Position p) const {
     // Retourne la case à la position p (là où Position gère les indices)
     return plateau[p.getLigne()][p.getColonne()];
 }
