@@ -1,15 +1,14 @@
 #include "Plateau.hpp" 
-#include "CaseJeu.hpp"
 
 
 // Constructeur
 Plateau::Plateau(int niveau = 0) : nbLigne(10), nbColonne(10), niveau(niveau) {
     // Initialiser un plateau vide (exemple d'un plateau 10x10)
-    plateau.resize(nbLigne, std::vector<Case>(nbColonne));
+    plateau.resize(nbLigne, std::vector<CaseJeu>(nbColonne));
 }
 
 // Méthodes d'accès
-CaseJeu Plateau::getCase(Position p) const {
+CaseJeu Plateau::getCaseJeu(Position p) const {
     // Retourne la case à la position p (là où Position gère les indices)
     return plateau[p.getLigne()][p.getColonne()];
 }
@@ -32,26 +31,9 @@ void Plateau::ajouterPiece(Piece piece, Position p) {
     }
 }
 
-void supprimerPiece(Piece* piece) {
-    // Supprimer une pièce du plateau
-    // Si la pièce existe, la supprimer de la liste des pièces et libérer la case
-    auto it = std::find(pieces.begin(), pieces.end(), *piece);
-    if (it != pieces.end()) {
-        pieces.erase(it);  // Retirer la pièce de la liste
-        // Trouver la case où elle se trouve et la marquer comme libre
-        for (int i = 0; i < nbLigne; ++i) {
-            for (int j = 0; j < nbColonne; ++j) {
-                if (&plateau[i][j] == piece->getCaseCourrante()) {
-                    plateau[i][j].setEstOccupe(false);
-                }
-            }
-        }
-    }
-}
 
-/*
 // Opérateur d'affectation
-Plateau& operator=(const Plateau& p) {
+Plateau& Plateau::operator=(const Plateau& p) {
     if (this != &p) { 
         nbLigne = p.nbLigne;
         nbColonne = p.nbColonne;
@@ -59,7 +41,53 @@ Plateau& operator=(const Plateau& p) {
         plateau = p.plateau;  
         pieces = p.pieces;    
     return *this;
-}*/
+}}
+
+
+void Plateau::supprimerPiece(Piece piece) {
+    // Rechercher la pièce manuellement
+    auto it = pieces.begin();
+    while (it != pieces.end()) {
+        if (&(*it) == &piece) { // Comparer les adresses des objets
+            break;
+        }
+        ++it;
+    }
+
+    if (it == pieces.end()) {
+        std::cerr << "Erreur : La pièce n'est pas présente sur le plateau.\n";
+        return;
+    }
+
+    // Libérer les cases occupées par la pièce
+    Case* caseCourrante = piece.getCaseCourrante();
+    if (caseCourrante == nullptr) {
+        std::cerr << "Erreur : La case courante de la pièce est nulle.\n";
+        return;
+    }
+
+    int rotationState = piece.rotationState;
+    const auto& blocks = piece.getBlocks().at(rotationState);
+
+    for (const Position& blockPos : blocks) {
+        int ligne = caseCourrante->getPosition().getLigne() + blockPos.getLigne();
+        int colonne = caseCourrante->getPosition().getColonne() + blockPos.getColonne();
+
+        if (ligne >= 0 && ligne < nbLigne && colonne >= 0 && colonne < nbColonne) {
+            CaseJeu& caseJeu = plateau[ligne][colonne];
+            caseJeu.setEstOccupe(false);
+            caseJeu.setPiece(nullptr);
+        } else {
+            std::cerr << "Erreur : Bloc hors des limites du plateau.\n";
+        }
+    }
+
+    // Supprimer la pièce de la liste
+    pieces.erase(it);
+
+    std::cout << "La pièce a été supprimée avec succès.\n";
+}
+
 
 // Opérateur d'affichage
 std::ostream& operator<<(std::ostream& os, const Plateau& p) {

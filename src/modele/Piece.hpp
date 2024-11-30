@@ -29,25 +29,24 @@ public:
     virtual ~Piece(); // Destructeur virtuel pur
 
     // Accesseur pour la case courante
-    virtual Case* getCaseCourrante() const = 0;
+    virtual Case* getCaseCourrante() const;
 
-    virtual string print() const =0;
+    virtual string print() const;
     Plateau getPlateau();
     // Déplacement de la pièce
     virtual void deplacer(Direction direction);
 
     // Rotation de la pièce
-    virtual void rotation() = 0;
+    virtual void rotation(int rotation) ;
 
     // Accesseur pour les blocs de la pièce
-    virtual std::map<int, std::vector<Position>> getBlocks() const = 0;
+    virtual std::map<int, std::vector<Position>> getBlocks() ;
 
     // Vérifie si la pièce est hors des limites
-    virtual bool estDehors() const = 0;
+    virtual bool estDehors() const;
 
     // Surcharge de l'opérateur d'égalité
-    virtual bool operator==(const Piece& piece) const = 0;
-
+    virtual bool operator==(const Piece& piece) const;
 
 
 };

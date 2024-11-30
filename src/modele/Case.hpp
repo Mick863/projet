@@ -35,9 +35,7 @@ public:
     virtual Position getPosition() const ;       // Retourne la position de la case
     virtual void setEstOccupe(bool b) ;          // Modifie l'état d'occupation
     virtual void print(std::ostream& os) const ; // Affiche les informations de la case
-
-    // Surcharge de l'opérateur de flux en tant que méthode pure
-    virtual std::ostream& operator<<(std::ostream& os) const = 0;
+    virtual std::ostream& operator<<(std::ostream& os) ;
 };
 
 

@@ -14,12 +14,3 @@ Piece::Piece(Case* c, std::map<int, std::vector<Position>> b)
 Plateau Piece::getPlateau(){
     return plateau;
 }
-void Piece::deplacer(Direction direction){
-    Plateau plateau = this -> getPlateau();
-    switch(direction){
-        case "Haut":
-            if(plateau.getCaseJeu(Position((*caseCourrante).getPosition().getLigne()+1, (*caseCourrante).getPosition().getColonne()) ){
-
-            }
-    }
-}
