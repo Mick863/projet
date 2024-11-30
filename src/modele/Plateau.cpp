@@ -4,11 +4,11 @@
 // Constructeur
 Plateau::Plateau(int niveau = 0) : nbLigne(10), nbColonne(10), niveau(niveau) {
     // Initialiser un plateau vide (exemple d'un plateau 10x10)
-    plateau.resize(nbLigne, std::vector<CaseJeu>(nbColonne));
+    plateau.resize(nbLigne, std::vector<Case>(nbColonne));
 }
 
 // Méthodes d'accès
-CaseJeu Plateau::getCaseJeu(Position p) const {
+Case Plateau::getCaseJeu(Position p) const {
     // Retourne la case à la position p (là où Position gère les indices)
     return plateau[p.getLigne()][p.getColonne()];
 }
@@ -74,7 +74,7 @@ void Plateau::supprimerPiece(Piece piece) {
         int colonne = caseCourrante->getPosition().getColonne() + blockPos.getColonne();
 
         if (ligne >= 0 && ligne < nbLigne && colonne >= 0 && colonne < nbColonne) {
-            CaseJeu& caseJeu = plateau[ligne][colonne];
+            Case& caseJeu = plateau[ligne][colonne];
             caseJeu.setEstOccupe(false);
             caseJeu.setPiece(nullptr);
         } else {

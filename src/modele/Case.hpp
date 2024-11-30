@@ -19,15 +19,17 @@ protected:
     bool estOccupe;    // Indique si la case est occupée
     Color couleur;     // Couleur de la case
     int taille;        // Taille de la case
+    Piece * piece;
+    
 
 public:
     // Constructeur par défaut abstrait
     Case();
-    Case(Position position, Color couleur);
+    Case(Position position, Color couleur , Piece *piece = nullptr);
 
     // Constructeur avec paramètres abstrait
     virtual ~Case();
-
+    virtual void setPiece(Piece * piece);
     // Méthodes virtuelles pures
     virtual bool getEstOccupe() const ;           // Retourne si la case est occupée
     virtual Color getCouleur() const ;           // Retourne la couleur de la case

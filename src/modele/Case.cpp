@@ -4,10 +4,10 @@
 
 // Constructeurs
 Case::Case()
-    : position(nullptr), estOccupe(false), couleur(Color::Blanc), taille(1) {}
+    : position(nullptr), estOccupe(false), couleur(Color::Bleu), taille(1) , piece(nullptr){}
 
-Case::Case(Position pos, Color couleur)
-    : position(new Position(pos)), estOccupe(false), couleur(couleur), taille(1) {}
+Case::Case(Position pos, Color couleur , Piece * piece)
+    : position(new Position(pos)), estOccupe(false), couleur(couleur), taille(1) , piece(piece) {}
 
 // Destructeur
 Case::~Case() {
@@ -50,3 +50,8 @@ void Case::print(std::ostream& os) const {
        << ", Taille: " << taille << "]";
 }
 
+void Case::setPiece(Piece * piece){
+    if(!estOccupe){
+        this -> piece = piece;
+    }   
+}

@@ -16,7 +16,7 @@ class Piece; //Déclaration anticipé de Piece pour éviter le problème des cyc
 
 class Plateau {
 private:
-    std::vector<std::vector<CaseJeu>> plateau; // Grille du plateau (matrice de cases)
+    std::vector<std::vector<Case>> plateau; // Grille du plateau (matrice de cases)
     int nbLigne;      
     int nbColonne;    
     int niveau;       
@@ -27,7 +27,7 @@ public:
     Plateau(int niveau = 0);
 
     // Méthodes d'accès
-    CaseJeu getCaseJeu(Position p) const; 
+    Case getCaseJeu(Position p) const; 
     int getNbLignes() const;        
     int getNbColonnes() const;      
 

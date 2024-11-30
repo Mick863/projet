@@ -1,12 +1,12 @@
 #include "CaseJeu.hpp"
 
-CaseJeu::CaseJeu() : Case(), piece(nullptr) {}
+CaseJeu::CaseJeu() : Case() {}
 
 CaseJeu::CaseJeu(Position pos, Color couleur, Piece* p)
-    : Case(pos, couleur), piece(p) {}
+    : Case(pos, couleur , piece) {}
 
 CaseJeu::CaseJeu(const CaseJeu& other)
-    : Case(other), piece(other.piece) {} // Appelle le constructeur de copie de Case
+    : Case(other ) {} // Appelle le constructeur de copie de Case
 
 CaseJeu::~CaseJeu() {}
 
@@ -22,9 +22,7 @@ Piece* CaseJeu::getPiece() const {
     return piece;
 }
 
-void CaseJeu::setPiece(Piece* p) {
-    piece = p;
-}
+
 
 std::ostream& operator<<(std::ostream& os, const CaseJeu& caseJeu) {
     os << "CaseJeu [Position: " << caseJeu.getPosition()
