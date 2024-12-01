@@ -29,9 +29,9 @@ private:
 public:
     // Constructeur
     Plateau(int niveau = 0);
-
     // Méthodes d'accès
-    Case& getCaseJeu(Position p);
+    CaseJeu& getCaseJeu(Position p);
+    CasePaysage& getCasePaysage(Position p);
     int getNbLignes() const;        
     int getNbColonnes() const;      
 

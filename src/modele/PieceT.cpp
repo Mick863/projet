@@ -49,7 +49,7 @@ void PieceT::rotation() {
         nouvellesPositions.push_back(nouvellePos);
     }
 
-    // Vérifie si les nouvelles positions sont valides (dans les limites et non occupées)
+    // Vérifie si les nouvelles positions sont valides (dans les limites du plateau et non occupées)
     for (const auto& pos : nouvellesPositions) {
         // Vérifie si la position est à l'intérieur du plateau
         if (pos.getLigne() < 0 || pos.getLigne() >= plateau.getNbLignes() ||
@@ -59,10 +59,15 @@ void PieceT::rotation() {
         }
 
         // Vérifie si la case est occupée ou est une case paysage
-        CaseJeu& caseCible = plateau.getCaseJeu(pos);
-        if (caseCible.getEstOccupe() || dynamic_cast<CasePaysage*>(&caseCible)) {
-            // La case est occupée ou est une case paysage, annule la rotation
-            return;
+        try {
+            CaseJeu& caseCible = plateau.getCaseJeu(pos);
+            if (caseCible.getEstOccupe() || dynamic_cast<CasePaysage*>(&caseCible)) {
+                // La case est occupée ou est une case paysage, annule la rotation
+                return;
+            }
+        } catch (const std::runtime_error& e) {
+            // Si la case n'est pas une CaseJeu (peut-être une CasePaysage), continue la vérification
+            continue;
         }
     }
 
@@ -72,5 +77,3 @@ void PieceT::rotation() {
     // Met à jour les positions des blocs de la pièce en fonction de la nouvelle rotation
     blocks[rotationState] = nouvellesPositions;
 }
-
-

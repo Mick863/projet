@@ -7,10 +7,36 @@ Plateau::Plateau(int niveau = 0) : nbLigne(10), nbColonne(10), niveau(niveau) {
     plateau.resize(nbLigne, std::vector<Case>(nbColonne));
 }
 
-Case& Plateau::getCaseJeu(Position p){
-    // Retourne une référence constante de la case à la position donnée
-    return plateau[p.getLigne()][p.getColonne()];
+
+CaseJeu& Plateau::getCaseJeu(Position p) {
+    // Récupère la case à la position donnée (renvoie une référence à une Case)
+    Case& caseBase = plateau[p.getLigne()][p.getColonne()];
+    
+    // Vérifie si la case est une CaseJeu
+    if (CaseJeu* caseJeu = dynamic_cast<CaseJeu*>(&caseBase)) {
+        // Si c'est une CaseJeu, on retourne une référence à CaseJeu
+        return *caseJeu;
+    } else {
+        // Si ce n'est pas une CaseJeu, on lance une exception ou gère l'erreur
+        throw std::runtime_error("La case n'est pas une CaseJeu !");
+    }
 }
+
+CasePaysage& Plateau::getCasePaysage(Position p) {
+    // Récupère la case à la position donnée (renvoie une référence à une Case)
+    Case& caseBase = plateau[p.getLigne()][p.getColonne()];
+
+    // Vérifie si la case est une CasePaysage
+    if (CasePaysage* casePaysage = dynamic_cast<CasePaysage*>(&caseBase)) {
+        // Si c'est une CasePaysage, on retourne une référence à CasePaysage
+        return *casePaysage;
+    } else {
+        // Si ce n'est pas une CasePaysage, on lance une exception ou gère l'erreur
+        throw std::runtime_error("La case n'est pas une CasePaysage !");
+    }
+}
+
+
 
 
 

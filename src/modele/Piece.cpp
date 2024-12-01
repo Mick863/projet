@@ -16,9 +16,6 @@ Plateau Piece::getPlateau(){
 }
 
 
-#include "Piece.hpp"
-#include "Plateau.hpp"
-#include <stdexcept>
 
 void Piece::deplacer(Direction direction) {
     if (!caseCourrante) {

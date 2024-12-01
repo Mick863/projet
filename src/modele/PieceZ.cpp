@@ -59,10 +59,15 @@ void PieceZ::rotation() {
         }
 
         // Vérifie si la case est occupée ou est une case paysage
-        CaseJeu& caseCible = plateau.getCaseJeu(pos);
-        if (caseCible.getEstOccupe() || dynamic_cast<CasePaysage*>(&caseCible)) {
-            // La case est occupée ou est une case paysage, annule la rotation
-            return;
+        try {
+            CaseJeu& caseCible = plateau.getCaseJeu(pos);
+            if (caseCible.getEstOccupe() || dynamic_cast<CasePaysage*>(&caseCible)) {
+                // La case est occupée ou est une case paysage, annule la rotation
+                return;
+            }
+        } catch (const std::runtime_error& e) {
+            // Si la case n'est pas une CaseJeu (peut-être une CasePaysage), continue la vérification
+            continue;
         }
     }
 

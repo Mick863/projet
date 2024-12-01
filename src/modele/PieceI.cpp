@@ -57,10 +57,16 @@ void PieceI::rotation() {
         }
 
         // Vérifie si la case est occupée ou est une case paysage
-        CaseJeu& caseCible = plateau.getCaseJeu(pos);
-        if (caseCible.getEstOccupe() || dynamic_cast<CasePaysage*>(&caseCible)) {
-            // La case est occupée ou est une case paysage, annule la rotation
-            return;
+        try {
+            CaseJeu& caseCible = plateau.getCaseJeu(pos);
+            if (caseCible.getEstOccupe() || dynamic_cast<CasePaysage*>(&caseCible)) {
+                // La case est occupée ou est une case paysage, annule la rotation
+                return;
+            }
+        } catch (const std::runtime_error& e) {
+            // Si la case n'est pas une CaseJeu, on passe à la prochaine vérification
+            // Ici, cela gère le cas où `getCaseJeu` a lancé une exception car ce n'était pas une CaseJeu.
+            continue;
         }
     }
 
@@ -70,6 +76,7 @@ void PieceI::rotation() {
     // Met à jour les positions des blocs de la pièce en fonction de la nouvelle rotation
     blocks[rotationState] = nouvellesPositions;
 }
+
 
 
 // Surcharge de l'opérateur << pour afficher les détails de la pièce
