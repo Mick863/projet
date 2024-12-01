@@ -22,6 +22,8 @@ Position& Position::operator=(const Position& p) {
     return *this;
 }
 
+
+
 ostream & operator<<(std::ostream& out, const Position& position) {
     out << "(" << position.Ligne << ", " << position.Colonne << ")";
     return out;

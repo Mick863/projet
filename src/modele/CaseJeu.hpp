@@ -23,8 +23,6 @@ public:
     // Accesseur pour la pièce
     Piece* getPiece() const;
 
-
-
     // Surcharge de l'opérateur << pour l'affichage
     friend std::ostream& operator<<(std::ostream& os, const CaseJeu& caseJeu);
 };

@@ -23,7 +23,6 @@ Piece* CaseJeu::getPiece() const {
 }
 
 
-
 std::ostream& operator<<(std::ostream& os, const CaseJeu& caseJeu) {
     os << "CaseJeu [Position: " << caseJeu.getPosition()
        << ", Couleur: " << static_cast<int>(caseJeu.getCouleur())

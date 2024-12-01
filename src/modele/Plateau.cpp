@@ -7,11 +7,12 @@ Plateau::Plateau(int niveau = 0) : nbLigne(10), nbColonne(10), niveau(niveau) {
     plateau.resize(nbLigne, std::vector<Case>(nbColonne));
 }
 
-// Méthodes d'accès
-Case Plateau::getCaseJeu(Position p) const {
-    // Retourne la case à la position p (là où Position gère les indices)
+Case& Plateau::getCaseJeu(Position p){
+    // Retourne une référence constante de la case à la position donnée
     return plateau[p.getLigne()][p.getColonne()];
 }
+
+
 
 int Plateau::getNbLignes() const {
     return nbLigne;

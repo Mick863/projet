@@ -31,7 +31,7 @@ public:
     Plateau(int niveau = 0);
 
     // Méthodes d'accès
-    Case getCaseJeu(Position p) const; 
+    Case& getCaseJeu(Position p);
     int getNbLignes() const;        
     int getNbColonnes() const;      
 

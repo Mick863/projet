@@ -1,7 +1,7 @@
 #ifndef PIECEZ_HPP
 #define PIECEZ_HPP
 #include "Piece.hpp"
- 
+#include "Plateau.hpp"
 class PieceZ : public Piece {
 public:
     // Constructeur par défaut
