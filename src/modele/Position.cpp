@@ -1,6 +1,7 @@
 #include "Position.hpp"
 #include <stdexcept>
 
+// Constructeur de la classe Position
 Position::Position(int Ligne, int Colonne) {
     if (Ligne < 0 || Ligne >= NB_LIGNES || Colonne < 0 || Colonne >= NB_COLONNES) {
         throw std::out_of_range("Position hors des limites du plateau");
@@ -9,6 +10,26 @@ Position::Position(int Ligne, int Colonne) {
     this->Colonne = Colonne;
 }
 
+// Constructeur avec validation des limites du plateau
+Position::Position(int Ligne, int Colonne, int nbLigne, int nbColonne) {
+    if (Ligne < 0 || Ligne >= nbLigne || Colonne < 0 || Colonne >= nbColonne) {
+        throw std::out_of_range("Position hors des limites du plateau");
+    }
+    this->Ligne = Ligne;
+    this->Colonne = Colonne;
+}
+
+// Accesseur pour obtenir la ligne
+int Position::getLigne() const {
+    return Ligne;
+}
+
+// Accesseur pour obtenir la colonne
+int Position::getColonne() const {
+    return Colonne;
+}
+
+// Mutateur pour définir la ligne avec validation des limites
 void Position::setLigne(int ligne) {
     if (ligne < 0 || ligne >= NB_LIGNES) {
         throw std::out_of_range("Ligne hors des limites du plateau");
@@ -16,6 +37,7 @@ void Position::setLigne(int ligne) {
     Ligne = ligne;
 }
 
+// Mutateur pour définir la colonne avec validation des limites
 void Position::setColonne(int colonne) {
     if (colonne < 0 || colonne >= NB_COLONNES) {
         throw std::out_of_range("Colonne hors des limites du plateau");

@@ -5,7 +5,9 @@
 #include <vector>
 #include "Case.hpp"
 #include "Position.hpp"
-#include "Plateau.hpp"
+
+// Déclaration anticipée de Plateau pour éviter la dépendance circulaire
+class Plateau;
 
 enum class Direction {
     Haut,     
@@ -14,40 +16,42 @@ enum class Direction {
     Droite    
 };
 
-class Plateau; //Déclaration anticipé de Plateau pour éviter le problème des cycles.
 class Piece {
 public:
     Case* caseCourrante; // Case actuelle où se trouve la pièce
-    Plateau plateau;
+    Plateau* plateau;    // Pointeur vers un objet Plateau
     std::map<int, std::vector<Position>> blocks; // Map des blocs pour les états de rotation
     int rotationState; // État actuel de rotation
 
 public:
     // Constructeurs et destructeur
     Piece(); // Constructeur par défaut abstrait
-    Piece(Case* c, std::map<int, std::vector<Position>> b); // Constructeur avec initialisation
+    Piece(Case* c, std::map<int, std::vector<Position>> b, Plateau* p = nullptr); // Constructeur avec initialisation
     virtual ~Piece(); // Destructeur virtuel pur
 
     // Accesseur pour la case courante
-    virtual Case* getCaseCourrante() const;
+    Case* getCaseCourrante() const;
 
-    virtual string print() const;
-    Plateau getPlateau();
+    string print() const;
+    Plateau* getPlateau(); // Retourne un pointeur vers Plateau
     // Déplacement de la pièce
-    virtual void deplacer(Direction direction);
+    void deplacer(Direction direction);
 
     // Rotation de la pièce
-    virtual void rotation(int rotation) ;
+    void rotation(int rotation);
 
     // Accesseur pour les blocs de la pièce
-    virtual std::map<int, std::vector<Position>> getBlocks() ;
+    std::map<int, std::vector<Position>> getBlocks() const;
 
     // Vérifie si la pièce est hors des limites
-    virtual bool estDehors() const;
+    bool estDehors() const;
 
     // Surcharge de l'opérateur d'égalité
-    virtual bool operator==(const Piece& piece) const;
+    bool operator==(const Piece& piece) const;
 
 };
 
-#endif 
+#endif
+
+
+

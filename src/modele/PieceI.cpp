@@ -1,5 +1,7 @@
 #include "PieceI.hpp"
+#include "Plateau.hpp"
 #include <iostream>
+#include "Position.hpp"
 
 // Constructeur par défaut
 PieceI::PieceI() : Piece() {
@@ -50,15 +52,15 @@ void PieceI::rotation() {
     // Vérifie si les nouvelles positions sont valides (dans les limites et non occupées)
     for (const auto& pos : nouvellesPositions) {
         // Vérifie si la position est à l'intérieur du plateau
-        if (pos.getLigne() < 0 || pos.getLigne() >= plateau.getNbLignes() ||
-            pos.getColonne() < 0 || pos.getColonne() >= plateau.getNbColonnes()) {
+        if (pos.getLigne() < 0 || pos.getLigne() >= plateau->getNbLignes() ||
+            pos.getColonne() < 0 || pos.getColonne() >= plateau->getNbColonnes()) {
             // Position hors du plateau, annule la rotation
             return;
         }
 
         // Vérifie si la case est occupée ou est une case paysage
         try {
-            CaseJeu& caseCible = plateau.getCaseJeu(pos);
+            CaseJeu& caseCible = plateau->getCaseJeu(pos);
             if (caseCible.getEstOccupe() || dynamic_cast<CasePaysage*>(&caseCible)) {
                 // La case est occupée ou est une case paysage, annule la rotation
                 return;
@@ -76,8 +78,6 @@ void PieceI::rotation() {
     // Met à jour les positions des blocs de la pièce en fonction de la nouvelle rotation
     blocks[rotationState] = nouvellesPositions;
 }
-
-
 
 // Surcharge de l'opérateur << pour afficher les détails de la pièce
 std::ostream& operator<<(std::ostream& os, const PieceI& piece) {

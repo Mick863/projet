@@ -1,4 +1,7 @@
-#include "Case.hpp" 
+#ifndef CASEGAGNANTE_HPP
+#define CASEGAGNANTE_HPP
+
+#include "CaseJeu.hpp" 
 
 class CaseGagnante : public CaseJeu {
 private:
@@ -22,4 +25,8 @@ public:
 
     // Surcharge de l'opérateur <<
     friend std::ostream& operator<<(std::ostream& os, const CaseGagnante& c);
+    bool estGagnante() const;
+    CaseType getType() const;
 };
+
+#endif

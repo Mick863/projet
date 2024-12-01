@@ -1,4 +1,8 @@
 #include "CasePaysage.hpp"
+#include "Piece.hpp"
+#include "Position.hpp"
+
+// Ajoutez ici d'autres inclusions si nécessaire.
 
 // Initialisation de la variable statique
 int CasePaysage::nbCasePaysage = 0;
@@ -53,3 +57,7 @@ std::ostream& operator<<(std::ostream& os, const CasePaysage& c) {
     c.print(os);
     return os;
 }
+ 
+CaseType CasePaysage::getType() const{
+        return CaseType::Gagnante;
+    }

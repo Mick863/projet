@@ -5,23 +5,20 @@
 
 class CasePaysage : public Case {
 public:
-    static int nbCasePaysage; // Variable statique pour compter les cases de type paysage
+    static int nbCasePaysage; 
 
-    // Constructeurs et destructeur
     CasePaysage();
     CasePaysage(Position position, Color couleur, Piece* piece = nullptr);
     CasePaysage(const CasePaysage& other);
     virtual ~CasePaysage();
-
-    // Opérateur d'affectation
     CasePaysage& operator=(const CasePaysage& other);
 
-    // Méthodes
-    static int getNbCasePaysage(); // Retourne le nombre de cases paysages
-    virtual void print(std::ostream& os) const override;
-
-    // Opérateur << pour l'affichage
+    static int getNbCasePaysage(); 
+    void print(std::ostream& os) const;
     friend std::ostream& operator<<(std::ostream& os, const CasePaysage& c);
+    CaseType getType() const;
 };
 
 #endif
+
+

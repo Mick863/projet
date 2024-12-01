@@ -1,4 +1,7 @@
 #include "CaseGagnante.hpp"
+#include "Piece.hpp" // Inclusion pour accéder à la définition complète de Piece
+#include <iostream>  // Pour std::ostream
+
 // Initialisation de l'attribut statique
 int CaseGagnante::nbCaseGagnante = 0;
 
@@ -45,3 +48,6 @@ std::ostream& operator<<(std::ostream& os, const CaseGagnante& c) {
     return os;
 }
 
+CaseType CaseGagnante::getType() const {
+    return CaseType::Gagnante;
+}

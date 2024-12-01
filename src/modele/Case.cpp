@@ -1,6 +1,6 @@
 #include "Case.hpp"
 #include "Position.hpp"
-#include <iostream>
+#include "Piece.hpp"
 
 // Constructeurs
 Case::Case()
@@ -11,7 +11,8 @@ Case::Case(Position pos, Color couleur , Piece * piece)
 
 // Destructeur
 Case::~Case() {
-    delete position; // Libère la mémoire allouée à l'objet Position
+    delete position; 
+    delete piece;
 }
 
 // Méthodes concrètes
@@ -50,8 +51,14 @@ void Case::print(std::ostream& os) const {
        << ", Taille: " << taille << "]";
 }
 
-void Case::setPiece(Piece * piece){
-    if(!estOccupe){
-        this -> piece = piece;
-    }   
+void Case::setPiece(Piece* newPiece) {
+    if (!estOccupe && newPiece != nullptr) {
+        piece = newPiece;
+        estOccupe = true;
+    }
+}
+
+
+CaseType Case::getType() const {
+    return CaseType::Normal;  
 }

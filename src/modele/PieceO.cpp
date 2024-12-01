@@ -3,6 +3,7 @@
 #include "Position.hpp"
 #include "Case.hpp"
 #include <iostream>
+
 using namespace std;
 
 // Constructeur par défaut
@@ -22,12 +23,14 @@ PieceO::PieceO(const PieceO& other) : Piece(other.caseCourrante, other.blocks) {
 }
 
 // Destructeur
-PieceO::~PieceO() {}
+PieceO::~PieceO() {
+    // Rien de particulier à libérer
+}
 
 // Surcharge de l'opérateur d'affectation
 PieceO& PieceO::operator=(const PieceO& other) {
     if (this != &other) {
-        Piece::operator=(other);
+        Piece::operator=(other); // Appelle l'opérateur d'affectation de la classe de base
         rotationState = other.rotationState;
         caseCourrante = other.caseCourrante;
     }
@@ -39,7 +42,7 @@ std::ostream& operator<<(std::ostream& os, const PieceO& piece) {
     os << "PieceO - Rotation: " << piece.rotationState << ", Position: "
        << piece.caseCourrante->getPosition() << ", Blocs: ";
     
-    // Afficher les positions des blocs pour chaque état de rotation
+    // Afficher les positions des blocs pour chaque état de rotation (toujours identiques)
     for (const auto& block : piece.blocks) {
         os << "Rotation " << block.first << ": ";
         for (const auto& pos : block.second) {
@@ -49,10 +52,10 @@ std::ostream& operator<<(std::ostream& os, const PieceO& piece) {
     return os;
 }
 
-string PieceO::print() const{
+// Méthode pour afficher la pièce sous forme d'une chaîne
+string PieceO::print() const {
     return "O";
 }
-
 
 // Méthode pour effectuer une rotation
 void PieceO::rotation() {
@@ -60,4 +63,5 @@ void PieceO::rotation() {
     // rotationState peut rester 0.
     // Si nécessaire, tu peux ajouter un comportement spécial.
 }
+
 

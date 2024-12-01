@@ -1,5 +1,7 @@
 #include "PieceT.hpp"
+#include "Plateau.hpp"  // Inclure Plateau.hpp ici pour accéder aux méthodes Plateau
 #include <iostream>
+#include "Position.hpp"
 
 // Constructeur par défaut
 PieceT::PieceT() : Piece() {
@@ -31,10 +33,37 @@ PieceT::~PieceT() {
     // Rien de particulier à libérer
 }
 
-std::string PieceT::print() const {
+// Surcharge de l'opérateur d'affectation
+PieceT& PieceT::operator=(const PieceT& other) {
+    if (this != &other) {
+        Piece::operator=(other); // Appelle l'opérateur d'affectation de la classe de base
+        rotationState = other.rotationState;
+        caseCourrante = other.caseCourrante;
+    }
+    return *this;
+}
+
+// Surcharge de l'opérateur << pour afficher les détails de la pièce
+std::ostream& operator<<(std::ostream& os, const PieceT& piece) {
+    os << "PieceT - Rotation: " << piece.rotationState << ", Position: "
+       << piece.caseCourrante->getPosition() << ", Blocs: ";
+    
+    // Afficher les positions des blocs pour chaque état de rotation
+    for (const auto& block : piece.blocks) {
+        os << "Rotation " << block.first << ": ";
+        for (const auto& pos : block.second) {
+            os << "(" << pos.getLigne() << ", " << pos.getColonne() << ") ";
+        }
+    }
+    return os;
+}
+
+// Méthode pour afficher la pièce sous forme d'une chaîne
+string PieceT::print() const {
     return "T";
 }
 
+// Méthode pour effectuer une rotation
 void PieceT::rotation() {
     // Calcule l'état de rotation suivant (4 états possibles pour la pièce T)
     int nouvelEtatRotation = (rotationState + 1) % 4;
@@ -52,15 +81,15 @@ void PieceT::rotation() {
     // Vérifie si les nouvelles positions sont valides (dans les limites du plateau et non occupées)
     for (const auto& pos : nouvellesPositions) {
         // Vérifie si la position est à l'intérieur du plateau
-        if (pos.getLigne() < 0 || pos.getLigne() >= plateau.getNbLignes() ||
-            pos.getColonne() < 0 || pos.getColonne() >= plateau.getNbColonnes()) {
+        if (pos.getLigne() < 0 || pos.getLigne() >= plateau->getNbLignes() ||
+            pos.getColonne() < 0 || pos.getColonne() >= plateau->getNbColonnes()) {
             // Position hors du plateau, annule la rotation
             return;
         }
 
         // Vérifie si la case est occupée ou est une case paysage
         try {
-            CaseJeu& caseCible = plateau.getCaseJeu(pos);
+            CaseJeu& caseCible = plateau->getCaseJeu(pos);
             if (caseCible.getEstOccupe() || dynamic_cast<CasePaysage*>(&caseCible)) {
                 // La case est occupée ou est une case paysage, annule la rotation
                 return;
@@ -77,3 +106,4 @@ void PieceT::rotation() {
     // Met à jour les positions des blocs de la pièce en fonction de la nouvelle rotation
     blocks[rotationState] = nouvellesPositions;
 }
+

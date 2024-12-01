@@ -1,4 +1,6 @@
 #include "PieceZ.hpp"
+#include "Plateau.hpp"  // Inclure Plateau.hpp ici pour utiliser ses méthodes
+#include <iostream>
 
 // Constructeur par défaut
 PieceZ::PieceZ() : Piece() {
@@ -30,11 +32,22 @@ PieceZ::~PieceZ() {
     // Rien de spécial à gérer ici
 }
 
+// Surcharge de l'opérateur d'affectation
+PieceZ& PieceZ::operator=(const PieceZ& other) {
+    if (this != &other) {
+        Piece::operator=(other);  // Appelle l'opérateur d'affectation de la classe de base
+        rotationState = other.rotationState;
+        caseCourrante = other.caseCourrante;
+    }
+    return *this;
+}
+
 // Méthode pour afficher la pièce sous forme d'une chaîne
 std::string PieceZ::print() const {
     return "Z";
 }
 
+// Méthode pour effectuer une rotation
 void PieceZ::rotation() {
     // Calcule l'état de rotation suivant (la pièce Z a 4 états de rotation)
     int nouvelEtatRotation = (rotationState + 1) % 4;
@@ -52,15 +65,15 @@ void PieceZ::rotation() {
     // Vérifie si les nouvelles positions sont valides (dans les limites du plateau et non occupées)
     for (const auto& pos : nouvellesPositions) {
         // Vérifie si la position est à l'intérieur du plateau
-        if (pos.getLigne() < 0 || pos.getLigne() >= plateau.getNbLignes() ||
-            pos.getColonne() < 0 || pos.getColonne() >= plateau.getNbColonnes()) {
+        if (pos.getLigne() < 0 || pos.getLigne() >= plateau->getNbLignes() ||  // Utilisez "->" ici
+            pos.getColonne() < 0 || pos.getColonne() >= plateau->getNbColonnes()) {  // Utilisez "->" ici
             // Position hors du plateau, annule la rotation
             return;
         }
 
         // Vérifie si la case est occupée ou est une case paysage
         try {
-            CaseJeu& caseCible = plateau.getCaseJeu(pos);
+            CaseJeu& caseCible = plateau->getCaseJeu(pos);  // Utilisez "->" ici
             if (caseCible.getEstOccupe() || dynamic_cast<CasePaysage*>(&caseCible)) {
                 // La case est occupée ou est une case paysage, annule la rotation
                 return;
@@ -77,7 +90,6 @@ void PieceZ::rotation() {
     // Met à jour les positions des blocs de la pièce en fonction du nouvel état de rotation
     blocks[rotationState] = nouvellesPositions;
 }
-
 
 // Surcharge de l'opérateur << pour afficher les détails de la pièce
 std::ostream& operator<<(std::ostream& os, const PieceZ& piece) {

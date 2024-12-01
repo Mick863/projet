@@ -1,44 +1,33 @@
+#ifndef CASE_HPP
+#define CASE_HPP
+
 #include "Position.hpp"
-#include "Piece.hpp"
-#include <iostream>
+class Piece; // Déclaration anticipée
+class CasePaysage; // Déclaration anticipée
+class CaseJeu; // Déclaration anticipée
 
-// Enumération pour les couleurs
-enum class Color {
-    Rouge,  // 0
-    Vert,   // 1
-    Bleu,   // 2
-    Jaune,  // 3
-    Noir,   // 4
-    Blanc   // 5
-};
-
-// Classe abstraite Case
 class Case {
 protected:
-    Position *position; // Position de la case
-    bool estOccupe;    // Indique si la case est occupée
-    Color couleur;     // Couleur de la case
-    int taille;        // Taille de la case
-    Piece * piece;
-    
+    Position* position; 
+    bool estOccupe;   
+    Color couleur;   
+    int taille;       
+    Piece* piece; 
 
 public:
-    // Constructeur par défaut abstrait
     Case();
-    Case(Position position, Color couleur , Piece *piece = nullptr);
-
-    // Constructeur avec paramètres abstrait
+    Case(Position position, Color couleur, Piece* piece = nullptr);
     virtual ~Case();
-    virtual void setPiece(Piece * piece);
-    // Méthodes virtuelles pures
-    virtual bool getEstOccupe() const ;           // Retourne si la case est occupée
-    virtual Color getCouleur() const ;           // Retourne la couleur de la case
-    virtual int getTaille() const ;              // Retourne la taille de la case
-    virtual Position getPosition() const ;       // Retourne la position de la case
-    virtual void setEstOccupe(bool b) ;          // Modifie l'état d'occupation
-    virtual void print(std::ostream& os) const ; // Affiche les informations de la case
-    virtual std::ostream& operator<<(std::ostream& os) ;
+    void setPiece(Piece* piece);
+
+    bool getEstOccupe() const;
+    Color getCouleur() const;
+    int getTaille() const;
+    Position getPosition() const;
+    void setEstOccupe(bool b);
+    void print(std::ostream& os) const;
+    std::ostream& operator<<(std::ostream& os);
+    CaseType getType() const;
 };
 
-
-
+#endif

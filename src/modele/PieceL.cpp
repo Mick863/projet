@@ -1,4 +1,6 @@
 #include "PieceL.hpp"
+#include "Plateau.hpp"
+#include "Position.hpp"
 #include <iostream>
 
 // Constructeur par défaut
@@ -53,15 +55,15 @@ void PieceL::rotation() {
     // Vérifie si les nouvelles positions sont valides (dans les limites du plateau et non occupées)
     for (const auto& pos : nouvellesPositions) {
         // Vérifie si la position est à l'intérieur du plateau
-        if (pos.getLigne() < 0 || pos.getLigne() >= plateau.getNbLignes() ||
-            pos.getColonne() < 0 || pos.getColonne() >= plateau.getNbColonnes()) {
+        if (pos.getLigne() < 0 || pos.getLigne() >= plateau->getNbLignes() ||
+            pos.getColonne() < 0 || pos.getColonne() >= plateau->getNbColonnes()) {
             // Position hors du plateau, annule la rotation
             return;
         }
 
         // Vérifie si la case est occupée ou est une case paysage
         try {
-            CaseJeu& caseCible = plateau.getCaseJeu(pos);
+            CaseJeu& caseCible = plateau->getCaseJeu(pos);  // Utilisation de "->" pour accéder aux membres de plateau
             if (caseCible.getEstOccupe() || dynamic_cast<CasePaysage*>(&caseCible)) {
                 // La case est occupée ou est une case paysage, annule la rotation
                 return;
@@ -80,8 +82,6 @@ void PieceL::rotation() {
     blocks[rotationState] = nouvellesPositions;
 }
 
-
-
 // Surcharge de l'opérateur << pour afficher les détails de la pièce
 std::ostream& operator<<(std::ostream& os, const PieceL& piece) {
     os << "PieceL - Rotation: " << piece.rotationState << ", Position: ";
@@ -97,3 +97,4 @@ std::ostream& operator<<(std::ostream& os, const PieceL& piece) {
     }
     return os;
 }
+

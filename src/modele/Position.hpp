@@ -1,3 +1,5 @@
+#ifndef POSITION_HPP 
+#define POSITION_HPP  
 #include <iostream>
 #include <stdexcept>
 #include "config.hpp"
@@ -21,4 +23,4 @@ class Position{
         friend ostream & operator<<(ostream & out, const Position &position);
 };
 
-
+#endif  // POSITION_HPP
