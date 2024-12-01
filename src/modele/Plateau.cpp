@@ -88,7 +88,6 @@ void Plateau::supprimerPiece(Piece piece) {
     std::cout << "La pièce a été supprimée avec succès.\n";
 }
 
-
 // Opérateur d'affichage
 std::ostream& operator<<(std::ostream& os, const Plateau& p) {
     for (int i = 0; i < p.nbLigne; ++i) {
@@ -101,3 +100,33 @@ std::ostream& operator<<(std::ostream& os, const Plateau& p) {
     return os;
 }
 
+std::string Plateau::print() const {
+    std::ostringstream oss;
+    for (int i = 0; i < nbLigne; ++i) {
+        for (int j = 0; j < nbColonne; ++j) {
+            const Case& currentCase = plateau[i][j]; // Accède à la case actuelle
+
+            // Vérifie le type de la case (Paysage, Gagnante ou Jeu)
+            const CasePaysage* paysage = dynamic_cast<const CasePaysage*>(&currentCase);
+            const CaseGagnante* gagnante = dynamic_cast<const CaseGagnante*>(&currentCase);
+            const CaseJeu* jeu = dynamic_cast<const CaseJeu*>(&currentCase);
+
+            if (paysage) {
+                oss << "P "; // Case Paysage
+            } else if (gagnante) {
+                oss << "G "; // Case Gagnante
+            } else if (jeu) {
+                if (jeu->getPiece() != nullptr) {
+                    oss << jeu->getPiece()->print() << " "; // Affiche la pièce présente dans la case Jeu
+                } else {
+                    oss << "X "; // Case Jeu vide
+                }
+            } else {
+                oss << "? "; // Cas inattendu
+            }
+        }
+        oss << "\n"; // Nouvelle ligne pour la ligne suivante du plateau
+    }
+
+    return oss.str();
+}

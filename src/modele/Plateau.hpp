@@ -3,10 +3,14 @@
 
 #include <iostream>
 using namespace std;
+#include <sstream>
+
 
 #include <vector>
 #include <iostream>
-#include "Case.hpp" 
+#include "Case.hpp"
+#include "CasePaysage.hpp" 
+#include "CaseGagnante.hpp"
 #include "CaseJeu.hpp"  
 #include "Piece.hpp"  
 #include "Position.hpp"
@@ -37,6 +41,8 @@ public:
     // Opérateur d'affectation
     Plateau& operator=(const Plateau& p);
     friend std::ostream& operator<<(std::ostream& os, const Plateau& p);
+    std::string print() const;
+
 };
 
 #endif

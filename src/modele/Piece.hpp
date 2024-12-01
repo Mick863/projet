@@ -48,7 +48,6 @@ public:
     // Surcharge de l'opérateur d'égalité
     virtual bool operator==(const Piece& piece) const;
 
-
 };
 
 #endif 
