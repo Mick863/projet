@@ -1,27 +1,22 @@
 #ifndef PIECEO_HPP
 #define PIECEO_HPP
-#include "Piece.hpp" 
+
+#include "Piece.hpp"
 
 class PieceO : public Piece {
 public:
-    // Constructeur par défaut
-    PieceO();
-    // Constructeur avec initialisation
-    PieceO(Case* c);
-    // Constructeur de copie
-    PieceO(const PieceO& other);
+    // Constructeur.
+    PieceO(const std::weak_ptr<Case>& c, const std::weak_ptr<Plateau>& p);
 
-    // Destructeur virtuel
-    virtual ~PieceO();
-    
-    // Surcharge de l'opérateur d'affectation
-    PieceO& operator=(const PieceO& other);
-
-    string print() const;
-
-    void rotation(); 
-
-    friend std::ostream& operator<<(std::ostream& os, const PieceO& piece);
+    // Implémentations des méthodes virtuelles.
+    std::string print() const override;
+    void deplacer(Direction direction) override;
+    void rotation() override;
+    bool estDehors() const override;
 };
 
 #endif
+
+
+
+

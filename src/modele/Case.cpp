@@ -1,64 +1,66 @@
 #include "Case.hpp"
-#include "Position.hpp"
-#include "Piece.hpp"
 
-// Constructeurs
-Case::Case()
-    : position(nullptr), estOccupe(false), couleur(Color::Bleu), taille(1) , piece(nullptr){}
+// Constructeur.
+Case::Case(const Position& position, TypeCase type, std::shared_ptr<Piece> piece, bool estOccupee)
+    : position(position), type(type), estOccupee(estOccupee), pieceCourrante(piece) {}
 
-Case::Case(Position pos, Color couleur , Piece * piece)
-    : position(new Position(pos)), estOccupe(false), couleur(couleur), taille(1) , piece(piece) {}
-
-// Destructeur
-Case::~Case() {
-    delete position; 
-    delete piece;
+// Accesseurs.
+const Position& Case::getPosition() const {
+    return position;
 }
 
-// Méthodes concrètes
-bool Case::getEstOccupe() const {
-    return estOccupe;
+TypeCase Case::getType() const {
+    return type;
 }
 
-Color Case::getCouleur() const {
-    return couleur;
+std::shared_ptr<Piece> Case::getPieceCourrante() const {
+    return pieceCourrante;
 }
 
-int Case::getTaille() const {
-    return taille;
+bool Case::getEstOccupee() const {
+    return estOccupee;
 }
 
-Position Case::getPosition() const {
-    if (position != nullptr) {
-        return *position;
+// Mutateurs.
+void Case::setOccupee(bool occupee) {
+    estOccupee = occupee;
+}
+
+void Case::setPieceCourrante(std::shared_ptr<Piece> piece) {
+    if (type == TypeCase::Paysage) {
+        throw std::runtime_error("Erreur : Impossible de placer une pièce sur une case de type Paysage.");
     }
-    return Position(-1, -1); // Retourne une position invalide si non initialisée
+    pieceCourrante = piece;
+    estOccupee = (piece != nullptr);
 }
 
-void Case::setEstOccupe(bool b) {
-    estOccupe = b;
-}
-
-void Case::print(std::ostream& os) const {
-    os << "Case [Position: ";
-    if (position != nullptr) {
-        os << "(" << position->getLigne() << ", " << position->getColonne() << ")";
-    } else {
-        os << "Non définie";
+// Opérateur d'affectation.
+Case& Case::operator=(const Case& autre) {
+    if (this != &autre) {
+        position = autre.position;
+        type = autre.type;
+        estOccupee = autre.estOccupee;
+        pieceCourrante = autre.pieceCourrante;
     }
-    os << ", Couleur: " << static_cast<int>(couleur)
-       << ", Occupée: " << (estOccupe ? "Oui" : "Non")
-       << ", Taille: " << taille << "]";
+    return *this;
 }
 
-void Case::setPiece(Piece* newPiece) {
-    if (!estOccupe && newPiece != nullptr) {
-        piece = newPiece;
-        estOccupe = true;
+// Opérateur de sortie.
+std::ostream& operator<<(std::ostream& out, const Case& c) {
+    out << "Case(Position: " << c.position
+        << ", Type: ";
+    switch (c.type) {
+        case TypeCase::Jeu:
+            out << "Jeu";
+            break;
+        case TypeCase::Gagnante:
+            out << "Gagnante";
+            break;
+        case TypeCase::Paysage:
+            out << "Paysage";
+            break;
     }
-}
-
-
-CaseType Case::getType() const {
-    return CaseType::Normal;  
+    out << ", EstOccupee: " << (c.estOccupee ? "Oui" : "Non")
+        << ", Piece: " << (c.pieceCourrante ? "Présente" : "Aucune") << ")";
+    return out;
 }

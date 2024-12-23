@@ -20,6 +20,7 @@ class Position{
         void setColonne(int colonne);
         virtual ~Position();
         Position &operator=(const Position &p);
+        bool operator==(const Position &p) const;
         friend ostream & operator<<(ostream & out, const Position &position);
 };
 

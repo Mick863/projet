@@ -14,5 +14,4 @@ enum class Color {
     Blanc   // 5
 };
 
-enum class CaseType { Paysage, Jeu, Gagnante , Normal}; 
 #endif

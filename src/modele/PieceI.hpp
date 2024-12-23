@@ -1,25 +1,21 @@
 #ifndef PIECEI_HPP
 #define PIECEI_HPP
-#include "Piece.hpp" 
+
+#include "Piece.hpp"
+#include <string>
+#include <memory>
+
 class PieceI : public Piece {
 public:
-    // Constructeur par défaut
-    PieceI();
-    // Constructeur avec initialisation
-    PieceI(Case* c);
-    // Constructeur de copie
-    PieceI(const PieceI& other);
+    // Constructeur
+    PieceI(const std::shared_ptr<Case>& c, 
+           const std::shared_ptr<Plateau>& p);
 
-    // Destructeur virtuel
-    virtual ~PieceI();
-    // Surcharge de l'opérateur d'affectation
-
-    string print() const;
-
-    void rotation(); 
-
-    friend std::ostream& operator<<(std::ostream& os, const PieceI& piece) ;
-
-
+    // Implémentations des méthodes virtuelles
+    std::string print() const override;                 // Affiche "II"
+    void deplacer(Direction direction) override;        // Déplace la pièce
+    void rotation() override;                           // Effectue la rotation (inutile ici)
+    bool estDehors() const override;                    // Vérifie si la pièce est hors du plateau
 };
+
 #endif

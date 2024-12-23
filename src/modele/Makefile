@@ -1,38 +1,22 @@
-# Définition du compilateur et des options
-CPP = g++ --std=c++17 -Wall
+# Variables
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -I.
+SRC = Case.cpp Position.cpp Piece.cpp PieceO.cpp Plateau.cpp config.cpp Jeu.cpp
+OBJ = $(SRC:.cpp=.o)
+EXEC = jeu
 
-# Fichiers sources spécifiques
-SRCS = main.cpp Case.cpp CaseGagnante.cpp CaseJeu.cpp CasePaysage.cpp Jeu.cpp Piece.cpp PieceI.cpp PieceL.cpp PieceO.cpp PieceT.cpp PieceZ.cpp Plateau.cpp Position.cpp config.cpp
-
-# Fichiers objets générés à partir des fichiers sources
-OBJECTS = $(SRCS:.cpp=.o)
-
-# Nom de l'exécutable
-EXEC = run
-
-# Règle par défaut : créer l'exécutable
+# Règles principales
 all: $(EXEC)
 
-# Règle pour créer l'exécutable
-$(EXEC): $(OBJECTS)
-	$(CPP) -o $@ $(OBJECTS)
-	valgrind ./run
+$(EXEC): $(OBJ)
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
-
-# Règle pour générer les fichiers objets à partir des fichiers sources
 %.o: %.cpp
-	$(CPP) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Règle pour nettoyer les fichiers générés
+# Nettoyage
 clean:
-	rm -f $(OBJECTS) $(EXEC)
+	rm -f $(OBJ) $(EXEC)
 
-# Règle pour forcer une recompilation complète
-rebuild: clean all
-
-# Règle pour afficher les fichiers objets générés
-list_objs:
-	@echo "Fichiers objets générés :"
-	@echo $(OBJECTS)
-
+.PHONY: all clean
 

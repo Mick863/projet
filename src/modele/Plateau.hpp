@@ -1,45 +1,43 @@
 #ifndef PLATEAU_HPP
-#define PLATEAU_HPP 
+#define PLATEAU_HPP
 
-#include <iostream>
 #include <vector>
-#include <map>
+#include <memory>
+#include <iostream>
 #include "Case.hpp"
-#include "CasePaysage.hpp"
-#include "CaseGagnante.hpp"
-#include "CaseJeu.hpp"
+#include "Piece.hpp"
 #include "Position.hpp"
 
-// Déclaration anticipée de Piece pour éviter la dépendance circulaire
-class Piece;
-
-class Plateau {
+class Plateau : public std::enable_shared_from_this<Plateau> {
 private:
-    std::vector<std::vector<Case>> plateau; // Grille du plateau (matrice de cases)
-    int nbLigne;      
-    int nbColonne;    
-    int niveau;       
-    std::vector<Piece*> pieces; // Liste des pointeurs vers les pièces présentes sur le plateau
+    int nbLigne;                                     // Nombre de lignes du plateau.
+    int nbColonne;                                   // Nombre de colonnes du plateau.
+    std::vector<std::vector<std::shared_ptr<Case>>> cases; // Matrice des cases.
+    std::vector<std::shared_ptr<Piece>> pieces;     // Liste des pièces.
+    int niveau;                                      // Niveau du jeu.
 
 public:
-    // Constructeur
-    Plateau(int niveau = 0);
-    virtual ~Plateau();
-    // Méthodes d'accès
-    CaseJeu& getCaseJeu(Position p);
-    CasePaysage& getCasePaysage(Position p);
-    int getNbLignes() const;        
-    int getNbColonnes() const;      
+    // Constructeur.
+    explicit Plateau(int niveau);
+    void initPieces(); 
 
-    // Gestion des pièces
-    void ajouterPiece(Piece* piece, Position p);  // Changer les paramètres pour accepter un pointeur
-    void supprimerPiece(Piece* piece);            // Changer les paramètres pour accepter un pointeur
-        
-    // Opérateur d'affectation
-    Plateau& operator=(const Plateau& p);
-    friend std::ostream& operator<<(std::ostream& os, const Plateau& p);
-    std::string print() const;
-    std::vector<std::vector<Case>>& getPlateau();
+    // Destructeur par défaut.
+    ~Plateau() = default;
+
+    // Accesseurs.
+    std::shared_ptr<Case> getCase(const Position& position) const; // Retourne un pointeur sur la case à une position donnée.
+    std::shared_ptr<Piece> getPiece(const Position& position) const; // Retourne un pointeur sur la pièce à une position donnée.
+
+    // Méthodes principales.
+    void ajouterPiece(const std::shared_ptr<Piece>& piece, const Position& position); // Ajoute une pièce à une position donnée.
+    bool movePiece(const Position& from, const Position& to); // Déplace une pièce d'une position à une autre.
+    bool estPositionValide(const Position& pos) const;        // Vérifie si une position est valide sur le plateau.
+
+    // Surcharge de l'opérateur << pour l'affichage.
+    friend std::ostream& operator<<(std::ostream& out, const Plateau& plateau);
 };
 
-#endif
+#endif // PLATEAU_HPP
+
+
+

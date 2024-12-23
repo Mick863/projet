@@ -1,74 +1,51 @@
-#include "Jeu.hpp"
-#include "Piece.hpp"
+#include "Plateau.hpp"
 #include <iostream>
-#include <stdexcept>
+#include <string>
 
-// Constructeur
-Jeu::Jeu() : plateau(0), jeuTermine(false) {
-    // Initialisation du plateau
-    for (int i = 0; i < 5; ++i) {
-        std::vector<Case> ligne;
-        for (int j = 0; j < 10; ++j) {
-            if (i < 2 || i > 3) {
-                // Les deux premières et les deux dernières lignes sont des cases paysages
-                ligne.emplace_back(CasePaysage(Position(i, j), Color::Bleu));
-            } else {
-                // Les deux lignes du milieu sont des cases de jeu
-                ligne.emplace_back(CaseJeu(Position(i, j), Color::Blanc));
-            }
+int main() {
+    auto plateau = std::make_shared<Plateau>(1); // Initialisation du plateau.
+    plateau->initPieces(); // Ajout de la pièce O à sa position initiale.
+
+    std::string commande;
+    bool partieEnCours = true;
+
+    // Position actuelle de la pièce O.
+    Position positionActuelle(2, 0);
+
+    std::cout << "Bienvenue dans le jeu !\n";
+    std::cout << "Votre objectif est d'amener la pièce O à la case gagnante.\n";
+    std::cout << "Commandes disponibles : '1 : Aller à gauche', '2 : Aller à droite'.\n\n";
+
+    while (partieEnCours) {
+        std::cout << *plateau; // Affiche l'état actuel du plateau.
+        std::cout << "Entrez une commande : ";
+        std::getline(std::cin, commande);
+
+        auto pieceO = plateau->getPiece(positionActuelle); // Récupérer la pièce à sa position actuelle.
+        if (!pieceO) {
+            std::cout << "Erreur : Pièce O introuvable.\n";
+            break;
         }
-        plateau.getPlateau().push_back(ligne);
-    }
 
-    // Définir la case gagnante
-    plateau.getPlateau()[2][4] = CaseGagnante(Position(2, 4), Color::Rouge);
-
-    // Initialisation de la pièce O à la position (2, 0)
-    piece = new PieceO(&plateau.getCaseJeu(Position(2, 0))); // Allocation dynamique
-    plateau.ajouterPiece(piece, Position(2, 0)); // Passer le pointeur
-}
-
-// Lancer la simulation du jeu
-void Jeu::lancer() {
-    while (!jeuTermine) {
-        std::cout << plateau.print() << std::endl; // Affiche le plateau
-
-        // Demander au joueur une direction
-        std::cout << "Entrez une direction (Haut, Bas, Gauche, Droite): ";
-        std::string directionInput;
-        std::cin >> directionInput;
-
-        Direction direction;
-
-        // Convertir l'entrée utilisateur en Direction
-        if (directionInput == "Haut") {
-            direction = Direction::Haut;
-        } else if (directionInput == "Bas") {
-            direction = Direction::Bas;
-        } else if (directionInput == "Gauche") {
-            direction = Direction::Gauche;
-        } else if (directionInput == "Droite") {
-            direction = Direction::Droite;
+        // Vérification et exécution de la commande.
+        if (commande == "1") { // Aller à gauche
+            pieceO->deplacer(Direction::Gauche);
+            positionActuelle.setColonne(positionActuelle.getColonne() - 1); // Mettre à jour la position actuelle.
+        } else if (commande == "2") { // Aller à droite
+            pieceO->deplacer(Direction::Droite);
+            positionActuelle.setColonne(positionActuelle.getColonne() + 1); // Mettre à jour la position actuelle.
+        } else if (commande == "Aller en haut" || commande == "Aller en bas") {
+            std::cout << "Déplacement interdit : Vous ne pouvez pas aller en haut ou en bas.\n";
         } else {
-            std::cout << "Direction invalide. Réessayez." << std::endl;
-            continue;
+            std::cout << "Commande invalide. Réessayez.\n";
         }
 
-        // Déplacer la pièce
-        piece->deplacer(direction);
-
-        // Vérifier si la pièce a atteint la case gagnante
-        Position positionCourante = piece->getCaseCourrante()->getPosition();
-        CaseJeu& caseCourrante = plateau.getCaseJeu(positionCourante);
-
-        // Vérifier si la case est de type Gagnante
-        if (caseCourrante.getType() == CaseType::Gagnante) {
-            jeuTermine = true;
-            std::cout << "Félicitations ! Vous avez atteint la case gagnante !" << std::endl;
+        // Vérification si la pièce a atteint la case gagnante.
+        if (positionActuelle == Position(2, 4)) { // Vérifier si la position actuelle est la case gagnante.
+            std::cout << "Félicitations ! Vous avez gagné !\n";
+            partieEnCours = false;
         }
     }
-}
 
-Jeu::~Jeu(){
-    delete piece;
+    return 0;
 }

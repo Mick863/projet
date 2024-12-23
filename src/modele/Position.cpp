@@ -1,5 +1,6 @@
 #include "Position.hpp"
 #include <stdexcept>
+#include "config.hpp"
 
 // Constructeur de la classe Position
 Position::Position(int Ligne, int Colonne) {
@@ -22,7 +23,13 @@ Position::Position(int Ligne, int Colonne, int nbLigne, int nbColonne) {
 // Accesseur pour obtenir la ligne
 int Position::getLigne() const {
     return Ligne;
-}
+} 
+
+bool Position::operator==(const Position &p) const{
+    return p.getLigne() == Ligne 
+                    && p.getColonne() == Colonne;
+} 
+
 
 // Accesseur pour obtenir la colonne
 int Position::getColonne() const {
