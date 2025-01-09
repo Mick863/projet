@@ -14,6 +14,7 @@ class Position{
     public:
         Position(int Ligne , int Colonne);
         Position(int Ligne , int Colonne, int nbLigne, int nbColonne);
+        Position(const Position &p) = default;
         int getLigne() const;
         int getColonne() const;
         void setLigne(int ligne);

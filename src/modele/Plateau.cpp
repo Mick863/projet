@@ -18,6 +18,7 @@ Plateau::Plateau(int niveau) : niveau(niveau) {
                 cases[i].push_back(std::make_shared<Case>(pos, TypeCase::Paysage));
             }
         }
+        
     }
 }
 

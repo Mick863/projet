@@ -1,22 +1,34 @@
-# Variables
+# Compiler et options
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -I.
+CXXFLAGS = -Wall -Wextra -std=c++17
+
+# Fichiers sources et objets
 SRC = Case.cpp Position.cpp Piece.cpp PieceO.cpp Plateau.cpp config.cpp Jeu.cpp
 OBJ = $(SRC:.cpp=.o)
-EXEC = jeu
 
-# Règles principales
-all: $(EXEC)
+# Nom de l'exécutable
+TARGET = jeu
 
-$(EXEC): $(OBJ)
+# Règle par défaut : compilation de l'exécutable
+default: $(TARGET)
+
+# Compilation de l'exécutable
+$(TARGET): $(OBJ)
 	$(CXX) $(CXXFLAGS) -o $@ $^
+	./jeu
+	
 
+# Compilation des fichiers objets
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Nettoyage
+# Nettoyage des fichiers intermédiaires
 clean:
-	rm -f $(OBJ) $(EXEC)
+	rm -f $(OBJ) $(TARGET)
 
-.PHONY: all clean
+# Nettoyage complet (y compris les sauvegardes)
+distclean: clean
+	rm -f *~
 
+# Phonies pour éviter les conflits avec des fichiers portant le même nom
+.PHONY: default clean distclean

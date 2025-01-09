@@ -8,9 +8,11 @@
 #include "Case.hpp"
 #include "Position.hpp"
 
+// Déclarations anticipées pour éviter les inclusions circulaires.
 class Case;
 class Plateau;
 
+// Enum pour les directions.
 enum class Direction {
     Haut,
     Bas,
@@ -27,8 +29,10 @@ protected:
 
 public:
     // Constructeur et destructeur.
-    Piece(const std::weak_ptr<Case>& c, std::map<int, std::vector<Position>> b, 
-          const std::weak_ptr<Plateau>& p = std::weak_ptr<Plateau>(), int rotation = 0);
+    Piece(const std::weak_ptr<Case>& c, 
+          std::map<int, std::vector<Position>> b, 
+          const std::weak_ptr<Plateau>& p = std::weak_ptr<Plateau>(), 
+          int rotation = 0);
     virtual ~Piece() = default;
 
     // Accesseurs.
@@ -37,7 +41,7 @@ public:
     std::map<int, std::vector<Position>> getBlocks() const;
     int getRotationState() const;
 
-    // Méthodes principales.
+    // Méthodes principales (méthodes virtuelles pures).
     virtual std::string print() const = 0;             // Méthode virtuelle pure pour l'affichage.
     virtual void deplacer(Direction direction) = 0;    // Méthode virtuelle pure pour le déplacement.
     virtual void rotation() = 0;                       // Méthode virtuelle pure pour la rotation.
@@ -48,7 +52,3 @@ public:
 };
 
 #endif // PIECE_HPP
-
-
-
-
